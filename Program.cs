@@ -117,13 +117,22 @@ Shipment heavyShipment = hub.BookShipment(
     ServiceTier.NextDay
 );
 
-Console.WriteLine();
 
 Shipment refridgeratedShipment = hub.BookShipment(
     individualCustomer,
     new RefrigeratedParcel(sender, recipient,12m,8000m), 
     ServiceTier.NextDay
 );
+
+
+Shipment vipDocumentShipment = hub.BookShipment(
+    individualCustomer,
+    new DocumentParcel(sender, recipient, 0.3m, 30000m),
+    ServiceTier.Vip,
+    new InsurancePolicy(30000m)
+);
+
+Console.WriteLine();
 
 
 
@@ -144,6 +153,11 @@ codShipment.PrintPriceBreakdown();
 
 Console.WriteLine("Refridgment Shipment:");
 refridgeratedShipment.PrintPriceBreakdown();
+
+Console.WriteLine("Vip Shipment:");
+vipDocumentShipment.PrintPriceBreakdown();
+
+
 
 Console.WriteLine();
 
@@ -173,6 +187,16 @@ catch (InvalidOperationException ex)
 }
 
 
+try
+{
+    hub.AssignCourier(vipDocumentShipment, bikeRider);
+}
+catch (InvalidOperationException ex)
+{
+    Console.WriteLine("Bike refused VIP shipment successfully.");
+    Console.WriteLine($"Reason: {ex.Message}");
+}
+
 Console.WriteLine();
 
 
@@ -186,6 +210,8 @@ hub.AssignCourier(standardInsuredShipment, vanDriver);
 hub.AssignCourier(fragileShipment, vanDriver);
 hub.AssignCourier(codShipment, bikeRider);
 hub.AssignCourier(refridgeratedShipment,vanDriver);
+
+hub.AssignCourier(vipDocumentShipment, vanDriver);
 
 Console.WriteLine();
 

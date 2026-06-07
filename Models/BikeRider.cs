@@ -14,6 +14,11 @@ namespace swiftroute_courier_app.Models
 
         public override bool CanAccept(Shipment shipment)
         {
+            if (shipment.ServiceTier == ServiceTier.Vip)
+            {
+                return false;
+            }
+
             bool isRefridgerated = shipment.Parcel is RefrigeratedParcel;
             bool weightAllowed = shipment.Parcel.WeightKg <= 5m;
 

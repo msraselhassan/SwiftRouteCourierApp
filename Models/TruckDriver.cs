@@ -14,10 +14,13 @@ namespace swiftroute_courier_app.Models
 
         public override bool CanAccept(Shipment shipment)
         {
-            bool economyOnly = shipment.ServiceTier == ServiceTier.Economy;
+            //bool economyOnly = shipment.ServiceTier == ServiceTier.Economy;
+
+            bool tireAllowed = shipment.ServiceTier == ServiceTier.Economy || shipment.ServiceTier == ServiceTier.Vip;
+
             bool minimumCargo = shipment.Parcel.WeightKg >= 20m;
 
-            return economyOnly && minimumCargo;
+            return tireAllowed && minimumCargo;
         }
 
         public bool CanDispatch(decimal totalCargoWeight)

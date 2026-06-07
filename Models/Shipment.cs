@@ -42,7 +42,7 @@ namespace swiftroute_courier_app.Models
 
         private void ValidateBookingRules()
         {
-            if (InsurancePolicy != null && !Parcel.CanBeInsured)
+            if (InsurancePolicy != null && !CanUseInsurance())
             {
                 throw new InvalidOperationException("This parcel type cannot be insured.");
             }
@@ -165,8 +165,19 @@ namespace swiftroute_courier_app.Models
                 ServiceTier.SameDay => 200m,
                 ServiceTier.NextDay => 100m,
                 ServiceTier.Economy => 60m,
+                ServiceTier.Vip => 500m,
                 _ => 0m
             };
+        }
+
+        private bool CanUseInsurance()
+        {
+            if (ServiceTier == ServiceTier.Vip)
+            {
+                return true;
+            }
+
+            return Parcel.CanBeInsured;
         }
 
         public decimal GetWeightSurcharge()

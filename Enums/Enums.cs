@@ -8,7 +8,8 @@ namespace swiftroute_courier_app.Enums
     {
         SameDay,
         NextDay,
-        Economy
+        Economy,
+        Vip
     }
 
     public enum ShipmentStatus
