@@ -14,13 +14,14 @@ namespace swiftroute_courier_app.Models
 
         public override bool CanAccept(Shipment shipment)
         {
+            bool isRefridgerated = shipment.Parcel is RefrigeratedParcel;
             bool weightAllowed = shipment.Parcel.WeightKg <= 5m;
 
             bool tierAllowed =
                 shipment.ServiceTier == ServiceTier.SameDay ||
                 shipment.ServiceTier == ServiceTier.NextDay;
 
-            return weightAllowed && tierAllowed;
+            return !isRefridgerated && weightAllowed && tierAllowed;
         }
     }
 }

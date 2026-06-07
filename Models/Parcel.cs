@@ -44,6 +44,7 @@ namespace swiftroute_courier_app.Models
                 return 80m;
             }
 
+
             return 150m;
         }
 

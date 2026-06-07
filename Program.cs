@@ -12,14 +12,14 @@ Console.WriteLine("1. REGISTER CUSTOMERS");
 Console.WriteLine("---------------------");
 
 IndividualCustomer individualCustomer = new IndividualCustomer(
-    "Rahim Uddin",
+    "Rahim",
     "01711111111"
 );
 
 BusinessCustomer businessCustomer = new BusinessCustomer(
-    "Karim Ahmed",
+    "Karim",
     "01822222222",
-    "ABC Electronics Ltd.",
+    "ABC Electronics",
     new CreditAccount("BA-1001", 100000m)
 );
 
@@ -33,9 +33,9 @@ Console.WriteLine();
 Console.WriteLine("REGISTER COURIERS");
 Console.WriteLine("-----------------");
 
-BikeRider bikeRider = new BikeRider("Bike Rider Hasan", "01911111111");
-VanDriver vanDriver = new VanDriver("Van Driver Selim", "01922222222");
-TruckDriver truckDriver = new TruckDriver("Truck Driver Babul", "01933333333");
+BikeRider bikeRider = new BikeRider("Bike Rider-Hasan", "01911111111");
+VanDriver vanDriver = new VanDriver("Van Driver-Selim", "01922222222");
+TruckDriver truckDriver = new TruckDriver("Truck Driver-Babul", "01933333333");
 
 hub.RegisterCourier(bikeRider);
 hub.RegisterCourier(vanDriver);
@@ -62,13 +62,13 @@ Address recipientAddress = new Address(
 );
 
 Contact sender = new Contact(
-    "Rahim Uddin",
+    "Uddin",
     "01711111111",
     senderAddress
 );
 
 Contact recipient = new Contact(
-    "Sabbir Hossain",
+    "Sabbir",
     "01633333333",
     recipientAddress
 );
@@ -119,6 +119,12 @@ Shipment heavyShipment = hub.BookShipment(
 
 Console.WriteLine();
 
+Shipment refridgeratedShipment = hub.BookShipment(
+    individualCustomer,
+    new RefrigeratedParcel(sender, recipient,12m,8000m), 
+    ServiceTier.NextDay
+);
+
 
 
 Console.WriteLine("3. PRICE BREAKDOWN FOR EACH SHIPMENT");
@@ -135,6 +141,9 @@ fragileShipment.PrintPriceBreakdown();
 
 Console.WriteLine("COD Shipment:");
 codShipment.PrintPriceBreakdown();
+
+Console.WriteLine("Refridgment Shipment:");
+refridgeratedShipment.PrintPriceBreakdown();
 
 Console.WriteLine();
 
@@ -153,6 +162,17 @@ catch (InvalidOperationException ex)
     Console.WriteLine($"Reason: {ex.Message}");
 }
 
+try
+{
+    hub.AssignCourier(refridgeratedShipment, bikeRider);
+}
+catch (InvalidOperationException ex)
+{
+    Console.WriteLine("Bike refused refrigerated parcel successfully.");
+    Console.WriteLine($"Reason: {ex.Message}");
+}
+
+
 Console.WriteLine();
 
 
@@ -165,6 +185,7 @@ hub.AssignCourier(documentShipment, bikeRider);
 hub.AssignCourier(standardInsuredShipment, vanDriver);
 hub.AssignCourier(fragileShipment, vanDriver);
 hub.AssignCourier(codShipment, bikeRider);
+hub.AssignCourier(refridgeratedShipment,vanDriver);
 
 Console.WriteLine();
 

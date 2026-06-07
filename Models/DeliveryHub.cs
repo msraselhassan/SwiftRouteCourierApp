@@ -7,9 +7,11 @@ namespace swiftroute_courier_app.Models
 {
     public class DeliveryHub
     {
-        private readonly List<Customer> _customers = new();
-        private readonly List<Courier> _couriers = new();
-        private readonly List<Shipment> _shipments = new();
+        private readonly List<Customer> _customers = new List<Customer>();
+        private readonly List<Courier> _couriers = new List<Courier>();
+        private readonly List<Shipment> _shipments = new List<Shipment>();
+
+
 
         public IReadOnlyList<Customer> Customers => _customers;
         public IReadOnlyList<Courier> Couriers => _couriers;
